@@ -30,6 +30,7 @@ async function run() {
     await client.connect();
 
     const touristsCollection = client.db("touristDB").collection('tourist');
+    const countryCollection = client.db("countryDB").collection('country');
 
     app.get('/tourists', async (req, res) => {
         const cursor = touristsCollection.find();
@@ -44,10 +45,18 @@ async function run() {
         res.send(result);
     })
 
+   
+
     app.post('/tourists', async (req, res) => {
         const newTourists = req.body;
-        console.log(newTourists);
         const result = await touristsCollection.insertOne(newTourists);
+        res.send(result);
+    })
+
+    app.get('/myList/:email', async (req, res) => {
+        const email=req.params.email;
+        console.log(email);
+        const result = await touristsCollection.find({userEmail:email}).toArray();
         res.send(result);
     })
 
