@@ -37,11 +37,6 @@ async function run() {
         const result = await cursor.toArray();
         res.send(result);
     })
-    app.get('/tourists/:countries', async (req, res) => {
-        const cursor = countryCollection.find();
-        const result = await cursor.toArray();
-        res.send(result);
-    })
 
     app.get('/tourists/:id', async (req, res) => {
         const id = req.params.id;
@@ -50,13 +45,20 @@ async function run() {
         res.send(result);
     })
 
-   
+    // app.get('/tourists/:countries', async (req, res) => {
+    //     const cursor = countryCollection.find();
+    //     const result = await cursor.toArray();
+    //     res.send(result);
+    // })
 
     app.post('/tourists', async (req, res) => {
         const newTourists = req.body;
         const result = await touristsCollection.insertOne(newTourists);
         res.send(result);
     })
+
+    
+   
 
     app.get('/myList/:email', async (req, res) => {
         const email=req.params.email;
