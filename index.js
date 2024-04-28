@@ -30,10 +30,15 @@ async function run() {
     await client.connect();
 
     const touristsCollection = client.db("touristDB").collection('tourist');
-    const countryCollection = client.db("countryDB").collection('country');
+    const countryCollection = client.db("touristDB").collection('country');
 
     app.get('/tourists', async (req, res) => {
         const cursor = touristsCollection.find();
+        const result = await cursor.toArray();
+        res.send(result);
+    })
+    app.get('/tourists/:countries', async (req, res) => {
+        const cursor = countryCollection.find();
         const result = await cursor.toArray();
         res.send(result);
     })
@@ -55,10 +60,17 @@ async function run() {
 
     app.get('/myList/:email', async (req, res) => {
         const email=req.params.email;
-        console.log(email);
         const result = await touristsCollection.find({userEmail:email}).toArray();
         res.send(result);
     })
+
+    // app.get('/tourists/:id', async (req, res) => {
+    //     console.log(req.params.id)
+    //     const id = req.params.id;
+    //     const query = { _id: new ObjectId(id) };
+    //     const result = await touristsCollection.findOne(query);
+    //     res.send(result);
+    // })
 
     app.delete('/tourists/:id', async (req, res) => {
         const id = req.params.id;
