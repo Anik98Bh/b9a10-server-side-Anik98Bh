@@ -44,12 +44,17 @@ async function run() {
         const result = await touristsCollection.findOne(query);
         res.send(result);
     })
+    app.get('/allTourists/:country', async (req, res) => {
+        const country = req.params.country;
+        const result = await touristsCollection.find({country:country}).toArray();
+        res.send(result);
+    })
 
-    // app.get('/tourists/:countries', async (req, res) => {
-    //     const cursor = countryCollection.find();
-    //     const result = await cursor.toArray();
-    //     res.send(result);
-    // })
+    app.get('/countries', async (req, res) => {
+        const cursor = countryCollection.find();
+        const result = await cursor.toArray();
+        res.send(result);
+    })
 
     app.post('/tourists', async (req, res) => {
         const newTourists = req.body;
